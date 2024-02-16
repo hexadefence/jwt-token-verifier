@@ -41,8 +41,9 @@ public class CustomSecurityFilter implements Filter {
 
             Algorithm algorithm = Algorithm.RSA256((RSAPublicKey) jwk.getPublicKey(), null);
             JWTVerifier verifier = JWT.require(algorithm)
-                                    .withIssuer("http://localhost:8080/realms/master")
-                                    .build();
+                    .withIssuer("http://localhost:8080/realms/master")
+                    .withAudience("backend-api")
+                    .build();
             verifier.verify(decodedJWT);
 
             SecurityContextHolder.getContext().setAuthentication(
@@ -62,7 +63,6 @@ public class CustomSecurityFilter implements Filter {
         chain.doFilter(request, response);
 
         SecurityContextHolder.clearContext();
-
 
     }
 }
